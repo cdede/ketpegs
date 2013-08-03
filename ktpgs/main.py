@@ -5,7 +5,7 @@ import sys
 import argparse
 
 def main():
-    parser = argparse.ArgumentParser(description="A pegs game using the curses library")
+    parser = argparse.ArgumentParser()
 
     parser.add_argument('-m','--mode', help='select game'
             , default='0')
