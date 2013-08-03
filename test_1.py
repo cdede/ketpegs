@@ -77,6 +77,7 @@ class  BoardTest(unittest.TestCase):
 class PegBoardTest(unittest.TestCase):
     def setUp(self):
         self.p1 = PegBoard(config)
+
     def test_fill_heart(self):
         self.p1.fill_heart()
         self.assertTrue(self.p1.marked_num==9)
@@ -86,6 +87,7 @@ class PegBoardTest(unittest.TestCase):
 class FunTest(unittest.TestCase):
     def setUp(self):
         pass
+
     def test_gen_kind_num(self):
         a= gen_kind_num({ 1:0, 2:1, 3:1, 4:1, 5:0 },5)
         self.assertTrue(a==1)
@@ -127,28 +129,36 @@ map_a1 = {
         "5_11": "12346c8a795b", 
         "5_12": "1234cba98765", 
     }
+
 seed1 = '7pVq7ogV'
+
 class AnimalTest(unittest.TestCase):
     def setUp(self):
         self.p1 = Animal('abc')
+
     def test_solve_1(self):
         for i in map_a1.keys():
             self.p1.set_map(map_a1[i])
             self.p1.solve()
+
     def test_solve_2(self):
         for i in range(10):
             seed = "%s%d" %(seed1,i)
             self.p1 = Animal(seed)
             self.p1.randomize()
             self.p1.solve()
+
 class BoardRanTest(unittest.TestCase):
     def setUp(self):
         self.tmp1 = config.map
         config.map =''
         self.p1 =BoardRan(config)
+
     def test_fill_oil(self):
         self.assertTrue(self.p1.num_null == 62)
+
     def tearDown(self):
         config.map =self.tmp1
+
 if __name__ == "__main__":
     unittest.main()
