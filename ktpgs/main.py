@@ -7,8 +7,6 @@ import argparse
 def main():
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('-m','--mode', help='select game'
-            , default='0')
     parser.add_argument('--donk', action ='store_true',help = 'buri donk',default=False)
     parser.add_argument('--m12', help = 'm12',default='')
     parser.add_argument('--ketpegs', action ='store_true',help = 'ketpegs (default)',default=False)
