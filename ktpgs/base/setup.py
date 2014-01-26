@@ -22,9 +22,10 @@ setup(
     packages = ['ktpgs' , 
         'ktpgs.base',
         'ktpgs.other',
+        'ktpgs.tests',
         ],
     data_files = [  ('share/doc/ketpegs', ['README', 'COPYING']),
-        ('share/ketpegs',['config.json','test_1.py' ]) ,
+        ('share/ketpegs',['config.json', ]) ,
         ],
     scripts = ['ketpegs']
 )
