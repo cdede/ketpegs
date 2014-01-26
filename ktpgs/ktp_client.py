@@ -50,7 +50,7 @@ class KtpClient(ThreadedClient):
         elif a == 't':
             self.gui.loop.remove_alarm(self.handle2)
         elif a == 's':#save
-            self.g.save_file()
+            self.g.sav4.save_history()
 
 
     def update_timer(self,loop=None,user_data=None):

@@ -16,6 +16,32 @@ from .base.log import  GameLog
 from .cell import Cell
 from .group import Group
 
+class SaveHistory(object):
+    def __init__(self, root):
+        config = root.config
+        self.work_path = config.work_path
+        self._name = config.name
+        self._seed = config.seed
+        self.root = root
+
+    @property
+    def save(self):
+        config ={}
+        config['seed'] = self._seed
+        config['name'] =self._name
+        config['old_replay'] = split_str(self.root.replay, 70)
+        return config
+
+    def save_history(self,flag='',prefix = ''):
+        if prefix == '':
+            prefix = self._name
+        os.chdir(self.work_path)
+        w_l = 'win' if self.root.win else 'lose'
+        fstr ='_'+w_l if flag == 'cur' else ''
+        filename = "%s_%d_%d%s.json" % (prefix,self.root.b_oil_num,
+                len(self.root.replay.split()),fstr)
+        save_file(filename,self.save)
+ 
 class Replay(object):
     def __init__(self, old_replay = ''):
         self.replay = ''
@@ -51,6 +77,7 @@ class Again(Replay):
         self.b_oil_num = 0
         self._old_oil = None
         self._always_null = []
+        self.config = config
 
     @property
     def old_oil(self):
@@ -263,6 +290,7 @@ class Board(Board2):
     def __init__(self, config):
         super(Board, self).__init__(config)
         self.log0.log = 'init Board'
+        self.sav4 = SaveHistory(self)
 
         if config.map != '':
             maps = ''.join(config.map)
@@ -305,7 +333,7 @@ class Board(Board2):
 
     def check_win(self):
         if self.win or self.lose:
-            self.save_file('cur')
+            self.sav4.save_history('cur')
         if self.lose:
             return tips['lose'] 
         elif self.win:
@@ -378,34 +406,7 @@ class Board1(Board3):
                 self.add_rand('swap')
             self.replay_add(trans_lab('m',x,y))
 
-
-class Board4(Board1):
-    def __init__(self, config):
-        super(Board4, self).__init__(config)
-        self.log0.log = 'init Board4'
-
-        self.work_path = config.work_path
-        self._name = config.name
-
-    @property
-    def save(self):
-        config ={}
-        config['seed'] = self._seed
-        config['name'] =self._name
-        config['old_replay'] = split_str(self.replay, 70)
-        return config
-
-    def save_file(self,flag='',prefix = ''):
-        if prefix == '':
-            prefix = self._name
-        os.chdir(self.work_path)
-        w_l = 'win' if self.win else 'lose'
-        fstr ='_'+w_l if flag == 'cur' else ''
-        filename = "%s_%d_%d%s.json" % (prefix,self.b_oil_num,
-                len(self.replay.split()),fstr)
-        save_file(filename,self.save)
- 
-class Board5(Board4):
+class Board5(Board1):
     def __init__(self, config):
         super(Board5, self).__init__(config)
         self.log0.log = 'init Board5'

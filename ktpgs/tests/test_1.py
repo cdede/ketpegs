@@ -66,11 +66,11 @@ class  BoardTest(unittest.TestCase):
         self.assertTrue(int(self.b1[0,0].neighbor_num)==5)
 
     def test_save_file(self):
-        self.b1.save_file(prefix='test')
+        self.b1.sav4.save_history(prefix='test')
 
     def test_save_file1(self):
         self.b1.lose = True
-        self.b1.save_file('cur', prefix = 'test')
+        self.b1.sav4.save_history('cur', prefix = 'test')
 
 class PegBoardTest(unittest.TestCase):
     def setUp(self):
