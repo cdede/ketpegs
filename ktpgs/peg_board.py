@@ -1,4 +1,4 @@
-from .add_ce import Board5
+from .board import Board5
 from .common import hope_rule,peg_neighbor,get_mid, check_cell_lst,trans_lab
 
 class PegBoard(Board5):
