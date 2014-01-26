@@ -1,3 +1,7 @@
+'''
+Again -> Board0 -> Board2 -> Board 
+Again -> Board0 -> BoardRan -> Board3 -> Board1 -> Board4 -> Board5 -> PegBoard
+'''
 from .entropy import gen_kind_num
 
 import os
