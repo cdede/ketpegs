@@ -13,7 +13,7 @@ setup(
     name = "ketpegs",
     author = "",
     author_email = "",
-    version = "0.9.35",
+    version = "0.9.39",
     license = "GPL3",
     description = "A thicket and pegs game using the curses",
     long_description = "README",
