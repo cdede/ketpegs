@@ -41,11 +41,11 @@ class KtpClient(ThreadedClient):
             self.g.play_rm(x,y)
             b = self.g.check_win()
             self._msg.tipline=b
-        elif a == 'R' and len(self.g.replay)==0:
-            for a in self.g.play_replay():
+        elif a == 'R' and len(self.g.tp1.replay)==0:
+            for a in self.g.tp1.play_replay():
                 pass
             self._msg.tipline = tips['finish']
-        elif a == 'r' and len(self.g.replay)==0:
+        elif a == 'r' and len(self.g.tp1.replay)==0:
             self.update_timer()
         elif a == 't':
             self.gui.loop.remove_alarm(self.handle2)

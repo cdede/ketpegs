@@ -29,7 +29,7 @@ class SaveHistory(object):
         config ={}
         config['seed'] = self._seed
         config['name'] =self._name
-        config['old_replay'] = split_str(self.root.replay, 70)
+        config['old_replay'] = split_str(self.root.tp1.replay, 70)
         return config
 
     def save_history(self,flag='',prefix = ''):
@@ -39,15 +39,15 @@ class SaveHistory(object):
         w_l = 'win' if self.root.win else 'lose'
         fstr ='_'+w_l if flag == 'cur' else ''
         filename = "%s_%d_%d%s.json" % (prefix,self.root.b_oil_num,
-                len(self.root.replay.split()),fstr)
+                len(self.root.tp1.replay.split()),fstr)
         save_file(filename,self.save)
  
-class Replay(object):
-    def __init__(self, old_replay = ''):
+class TrapReplay(object):
+    def __init__(self, root, old_replay = ''):
         self.replay = ''
         self.is_replay = False
         self._old_replay = old_replay
-        self.log0 = GameLog()
+        self.root = root
 
     def init_play(self):
         re1 = []
@@ -66,11 +66,28 @@ class Replay(object):
     def play_end(self):
         self.is_replay = False
 
-class Again(Replay):
+    def play_replay(self):
+        self.play_begin()
+        for s1 in  self.replay.split():
+            if s1[0] == '#':
+                continue 
+            flag,x,y = re.search('(\w+)_(\d+)_(\d+)',s1).groups()
+            x = int(x)
+            y = int(y)
+            if flag == 'm':
+                self.root.play_mark(x,y)
+            elif flag == 'r':
+                self.root.play_rm(x,y)
+            yield False
+        self.play_end()
+        yield True
+
+class Again(object):
 
     def __init__(self, config):
-        super(Again, self).__init__(config.old_replay)
+        self.log0 = GameLog()
         self.log0.log = 'init Again'
+        self.tp1 = TrapReplay(self)
 
         self.w, self.h = config.width, config.height
         self.total_oil = int(self.w*self.h/9)
@@ -121,7 +138,7 @@ class Again(Replay):
                     if i.oil_num == 0:
                         i.dead()
                 self.b_oil_num += 1
-                self.replay_add('#O_%d ' % self.b_oil_num)
+                self.tp1.replay_add('#O_%d ' % self.b_oil_num)
                 self.old_oil = tmp2
 
 
@@ -239,7 +256,7 @@ class Board2(Board0):
         t1 = self[x, y].clear()
         if t1 > 0:
             self.add_rand('clear')
-            self.replay_add(trans_lab('r',x,y))
+            self.tp1.replay_add(trans_lab('r',x,y))
 
     def _clear_group(self):
         for x, y in self.allcoords:
@@ -342,7 +359,7 @@ class Board(Board2):
 
     def change_day(self):
         self.dn_num += 1
-        self.replay_add('#DN_%d ' % self.dn_num)
+        self.tp1.replay_add('#DN_%d ' % self.dn_num)
         self.isday = not self.isday
 
     @property
@@ -350,28 +367,7 @@ class Board(Board2):
         return '%s: %dx%d %d/%d' % ('day' if self.isday else 'night', self.w, self.h, 
         self.b_oil_num,self.total_oil)
 
-class Board3(Board):
-    def __init__(self, config):
-        super(Board3, self).__init__(config)
-        self.log0.log = 'init Board3'
-
-    def play_replay(self):
-        self.play_begin()
-        for s1 in  self.replay.split():
-            if s1[0] == '#':
-                continue 
-            flag,x,y = re.search('(\w+)_(\d+)_(\d+)',s1).groups()
-            x = int(x)
-            y = int(y)
-            if flag == 'm':
-                self.play_mark(x,y)
-            elif flag == 'r':
-                self.play_rm(x,y)
-            yield False
-        self.play_end()
-        yield True
-
-class Board1(Board3):
+class Board1(Board):
     def __init__(self, config):
         super(Board1, self).__init__(config)
         self.log0.log = 'init Board1'
@@ -404,7 +400,7 @@ class Board1(Board3):
         if tmp.is_marked():
             if self.swap_cell(tmp):
                 self.add_rand('swap')
-            self.replay_add(trans_lab('m',x,y))
+            self.tp1.replay_add(trans_lab('m',x,y))
 
 class Board5(Board1):
     def __init__(self, config):
@@ -502,8 +498,8 @@ class PegBoard(Board5):
                 if tmp.isnull():
                     m1 = self.mark_cell
                     self._jump(m1,tmp)
-                    self.replay_add(trans_lab('m',m1.x,m1.y))
-                    self.replay_add(trans_lab('m',tmp.x,tmp.y))
+                    self.tp1.replay_add(trans_lab('m',m1.x,m1.y))
+                    self.tp1.replay_add(trans_lab('m',tmp.x,tmp.y))
                     self.mark_cell = None
                 else:
                     self.mark_cell = tmp
