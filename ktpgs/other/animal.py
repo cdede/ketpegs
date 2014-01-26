@@ -1,5 +1,5 @@
 import os
-from .common import save_file, m12_rule
+from .common import  m12_rule
 from .animal0 import Animal0
 
 class Animal(Animal0):

@@ -1,6 +1,6 @@
 from .ktp_client import KtpClient
-from .animal import solve_m12
-from .buri_donk import BuriDonk
+from .other.animal import solve_m12
+from .other.buri_donk import BuriDonk
 import sys
 import argparse
 

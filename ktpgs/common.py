@@ -29,14 +29,6 @@ hope_rule= {
         '550': '001',
     }
 
-m12_rule= {
-        'a':'rl2rl5rl4',
-        'b':"rlrl3rl2",
-        'c':"rlrl3rl2rl9rl7rl8",
-        'd':"rl3rl6rlrl9rl7rl8",
-        'e':"rl9rl7rl8rl7rlrl5",
-        'f':"rlrl3rl2rl7rlrl5rl7rlrl5",
-        }
 animal_rule = [ 4,2, 5,5,2, 1,1,2, 3,3,2, 4]
 
 entropy_rule = [ 0, -1 , -2 , -3 ,-4 ,4 ,1,2,3]
