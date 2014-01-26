@@ -2,15 +2,19 @@
 Again -> Board0 -> Board2 -> Board 
 Again -> Board0 -> BoardRan -> Board3 -> Board1 -> Board4 -> Board5 -> PegBoard
 '''
-from .entropy import gen_kind_num
-
 import os
-from .common import save_file, split_str
+from operator import  attrgetter
+import random
+import re
 
-from .common import trans_lab
+from .entropy import gen_kind_num
+from .common import ( save_file, split_str ,tips, hope_rule,
+        peg_neighbor,get_mid, check_cell_lst,trans_lab,
+        )
 
-from .common import  peg_neighbor
 from .base.log import  GameLog
+from .cell import Cell
+from .group import Group
 
 class Replay(object):
     def __init__(self, old_replay = ''):
@@ -93,7 +97,6 @@ class Again(Replay):
                 self.replay_add('#O_%d ' % self.b_oil_num)
                 self.old_oil = tmp2
 
-from .cell import Cell
 
 class Board0(Again):
     def __init__(self, config):
@@ -164,11 +167,6 @@ class Board0(Again):
                 num+=1
         return num
 
-from .common import trans_lab
-from .group import Group
-from operator import  attrgetter
-
-import random
 class BoardRan(Board0):
     def __init__(self, config):
         random.seed(config.seed)
@@ -257,8 +255,6 @@ class Board2(Board0):
                 self._mid_null = i
                 break
 
-from .cell import Cell
-from .common import tips
 
 class Darkerror(RuntimeError):
     pass
@@ -325,7 +321,6 @@ class Board(Board2):
     def status(self):
         return '%s: %dx%d %d/%d' % ('day' if self.isday else 'night', self.w, self.h, 
         self.b_oil_num,self.total_oil)
-import re
 
 class Board3(Board):
     def __init__(self, config):
@@ -444,7 +439,6 @@ class Board5(Board4):
         return False
 
 
-from .common import hope_rule,peg_neighbor,get_mid, check_cell_lst,trans_lab
 
 class PegBoard(Board5):
     def __init__(self, config):
