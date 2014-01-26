@@ -2,8 +2,7 @@
 import os
 import json
 from ktpgs.cell import Cell
-from ktpgs.board import Board , BoardRan
-from ktpgs.peg_board import PegBoard
+from ktpgs.board import Board , BoardRan, PegBoard
 from ktpgs.common import TargetConfig, entropy_rule, get_wp_config
 from ktpgs.entropy import gen_kind_num
 from ktpgs.gen_oil import ent2num, gen_oil

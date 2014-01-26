@@ -1,4 +1,4 @@
-from .peg_board import PegBoard
+from .board import PegBoard
 from .base.client import ThreadedClient
 from .common import get_wp_config, save_file, tips
 config = get_wp_config()
