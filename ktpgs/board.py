@@ -6,12 +6,14 @@ from .common import save_file, split_str
 from .common import trans_lab
 
 from .common import  peg_neighbor
+from .base.log import  GameLog
 
 class Replay(object):
     def __init__(self, old_replay = ''):
         self.replay = ''
         self.is_replay = False
         self._old_replay = old_replay
+        self.log0 = GameLog()
 
     def init_play(self):
         re1 = []
@@ -34,6 +36,8 @@ class Again(Replay):
 
     def __init__(self, config):
         super(Again, self).__init__(config.old_replay)
+        self.log0.log = 'init Again'
+
         self.w, self.h = config.width, config.height
         self.total_oil = int(self.w*self.h/9)
         self.b_oil_num = 0
@@ -90,6 +94,8 @@ from .cell import Cell
 class Board0(Again):
     def __init__(self, config):
         super(Board0, self).__init__(config)
+        self.log0.log = 'init Board0'
+
         self._kind = config.kind
         self.allcoords = [(x, y) for y in range(self.h)
                      for x in range(self.w)]
@@ -163,6 +169,8 @@ class BoardRan(Board0):
     def __init__(self, config):
         random.seed(config.seed)
         super(BoardRan, self).__init__(config)
+        self.log0.log = 'init BoardRan'
+
         self.oil_coords = [(x, y) for y in range(1,self.h-1)
                      for x in range(1,self.w-1)]
         self.all_cell = [(x, y) for y in range(self.h)
@@ -191,6 +199,7 @@ class BoardRan(Board0):
 class Board2(Board0):
     def __init__(self, config):
         super(Board2, self).__init__(config)
+        self.log0.log = 'init Board2'
 
     def clear(self,x,y):
         'right key'
@@ -253,6 +262,8 @@ class Darkerror(RuntimeError):
 class Board(Board2):
     def __init__(self, config):
         super(Board, self).__init__(config)
+        self.log0.log = 'init Board'
+
         if config.map != '':
             maps = ''.join(config.map)
             self.map = config.map
@@ -315,6 +326,7 @@ import re
 class Board3(Board):
     def __init__(self, config):
         super(Board3, self).__init__(config)
+        self.log0.log = 'init Board3'
 
     def play_replay(self):
         self.play_begin()
@@ -335,6 +347,8 @@ class Board3(Board):
 class Board1(Board3):
     def __init__(self, config):
         super(Board1, self).__init__(config)
+        self.log0.log = 'init Board1'
+
         self.mark_cell = None
 
     def swap(self,a0,a1):
@@ -369,6 +383,8 @@ class Board1(Board3):
 class Board4(Board1):
     def __init__(self, config):
         super(Board4, self).__init__(config)
+        self.log0.log = 'init Board4'
+
         self.work_path = config.work_path
         self._name = config.name
 
@@ -393,6 +409,8 @@ class Board4(Board1):
 class Board5(Board4):
     def __init__(self, config):
         super(Board5, self).__init__(config)
+        self.log0.log = 'init Board5'
+
         self._add_swap = config.add_swap
         self._add_clear = config.add_clear
         self._history = set()
@@ -428,6 +446,8 @@ class PegBoard(Board5):
     def __init__(self, config):
         self.isday = True
         super(PegBoard, self).__init__(config)
+        self.log0.log = 'init PegBoard'
+
         self._seed = config.seed
         self.back=hope_rule
         self._old_lose = False

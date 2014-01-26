@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python -O
 import os
 import json
 from ktpgs.cell import Cell
