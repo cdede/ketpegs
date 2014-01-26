@@ -55,7 +55,7 @@ class KtpClient(ThreadedClient):
 
     def update_timer(self,loop=None,user_data=None):
         if self._gen1 is None:
-            self._gen1 = self.g.play_replay()
+            self._gen1 = self.g.tp1.play_replay()
             self.num = 0
         a = next(self._gen1)
         if not a:
