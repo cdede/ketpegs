@@ -99,3 +99,11 @@ class Cell(object):
         if self.is_oil:
             symbol += '+'
         return symbol
+
+    def __add__(self, a1):
+        if self.map == a1.map:
+            return False
+        t1,t2= a1.second,  self.second
+        self.map, a1.map= a1.map,  self.map
+        self.second, a1.second= t1,t2
+        return True

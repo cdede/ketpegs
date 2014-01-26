@@ -6,12 +6,11 @@ class Board1(Board3):
         self.mark_cell = None
 
     def swap(self,a0,a1):
-        if a0.map == a1.map:
-            return False
-        t1,t2= a1.second,  a0.second
-        a0.map, a1.map= a1.map,  a0.map
-        a0.second, a1.second= t1,t2
-        self.fill_group()
+        b0 = a0 + a1
+        if b0:
+            self.fill_group()
+        else:
+            return b0
         return True
 
     def swap_cell(self,c1):
