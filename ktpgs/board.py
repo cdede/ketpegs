@@ -43,10 +43,10 @@ class SaveHistory(object):
         save_file(filename,self.save)
  
 class TrapReplay(object):
-    def __init__(self, root, old_replay = ''):
+    def __init__(self, root ):
         self.replay = ''
         self.is_replay = False
-        self._old_replay = old_replay
+        self._old_replay = root.config.old_replay
         self.root = root
 
     def init_play(self):
@@ -87,7 +87,6 @@ class Again(object):
     def __init__(self, config):
         self.log0 = GameLog()
         self.log0.log = 'init Again'
-        self.tp1 = TrapReplay(self)
 
         self.w, self.h = config.width, config.height
         self.total_oil = int(self.w*self.h/9)
@@ -95,6 +94,7 @@ class Again(object):
         self._old_oil = None
         self._always_null = []
         self.config = config
+        self.tp1 = TrapReplay(self)
 
     @property
     def old_oil(self):
