@@ -8,7 +8,7 @@ from ktpgs.peg_board import PegBoard
 from ktpgs.common import TargetConfig, entropy_rule, get_wp_config
 from ktpgs.entropy import gen_kind_num
 from ktpgs.gen_oil import ent2num, gen_oil
-from ktpgs.animal import Animal
+from ktpgs.other.animal import Animal
 
 import unittest
 os.sys.path.append(os.curdir)
