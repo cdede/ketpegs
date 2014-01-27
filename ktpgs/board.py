@@ -173,7 +173,6 @@ class OilMetals(object):
                 self.tp1.replay_add('#O_%d ' % self.b_oil_num)
                 self.old_oil = tmp2
 
-
 class BayouWater(OilMetals):
     def __init__(self, config):
         super(BayouWater, self).__init__(config)
@@ -243,7 +242,6 @@ class BayouWater(OilMetals):
                 num+=1
         return num
 
-
 class AurousWood(BayouWater):
     def __init__(self, config):
         super(AurousWood, self).__init__(config)
@@ -300,7 +298,6 @@ class AurousWood(BayouWater):
             if tmp.neighbor_num >= _mid_null:
                 self._mid_null = i
                 break
-
 
 class Darkerror(RuntimeError):
     pass
