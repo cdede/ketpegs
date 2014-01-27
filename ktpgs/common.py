@@ -2,7 +2,6 @@ import math
 import random
 import json
 import os
-import textwrap
 from operator import  attrgetter
 '''
 fire 1
@@ -67,7 +66,6 @@ class TargetConfig(object):
 
         self.name = config['name']
         self.old_replay = config['old_replay']
-        self.DEBUG = True
         self.work_path = ''
 
         self.width,         self.height = 9, 9
@@ -88,13 +86,6 @@ def get_wp_config():
     config.work_path = work_path
     return config
  
-def split_str(str1,size):
-    ret = []
-    wrapped = textwrap.wrap(str1, size)
-    for line in wrapped:
-        ret.append( line)
-    return ret
-
 def check_cell_lst(lst,att1):
     ret = True
     for i in lst:
@@ -102,5 +93,3 @@ def check_cell_lst(lst,att1):
         ret = ret and not f1(i)
     return ret
 
-def trans_lab(a,b,c):
-    return '%s_%d_%d ' % (a,b,c)

@@ -7,8 +7,7 @@ import random
 import re
 
 from .entropy import gen_kind_num
-from .common import ( save_file, split_str , 
-        peg_neighbor,get_mid, check_cell_lst,trans_lab,
+from .common import ( save_file, peg_neighbor,get_mid, check_cell_lst,
         )
 
 from .base.log import  GameLog
@@ -23,12 +22,20 @@ class SaveHistory(object):
         self._seed = config.seed
         self.root = root
 
+    def _split_str(self,str1,size):
+        import textwrap
+        ret = []
+        wrapped = textwrap.wrap(str1, size)
+        for line in wrapped:
+            ret.append( line)
+        return ret
+ 
     @property
     def save(self):
         config ={}
         config['seed'] = self._seed
         config['name'] =self._name
-        config['old_replay'] = split_str(self.root.tp1.replay, 70)
+        config['old_replay'] = self._split_str(self.root.tp1.replay, 70)
         return config
 
     def save_history(self,flag='',prefix = ''):
@@ -54,7 +61,12 @@ class TrapReplay(object):
             re1.extend(i.split())
         self.replay = ''.join([ i + ' ' for i in re1 ])
 
-    def replay_add(self,y):
+    def _trans_lab(self,a,b,c):
+        return '%s_%d_%d ' % (a,b,c)
+
+    def replay_add(self,y,t1 = 'b'):
+        if t1 =='t':
+            y = self._trans_lab(*y)
         if not self.is_replay:
             self.replay += y
  
@@ -256,7 +268,7 @@ class AurousWood(BayouWater):
         t1 = self[x, y].clear()
         if t1 > 0:
             self.add_rand('clear')
-            self.tp1.replay_add(trans_lab('r',x,y))
+            self.tp1.replay_add(('r',x,y),'t')
 
     def _clear_group(self):
         for x, y in self.allcoords:
@@ -403,7 +415,7 @@ class DealBoard(SeekFire):
         if tmp.is_marked():
             if self.swap_cell(tmp):
                 self.add_rand('swap')
-            self.tp1.replay_add(trans_lab('m',x,y))
+            self.tp1.replay_add(('m',x,y),'t')
 
 class BoldBoard(DealBoard):
     def __init__(self, config):
@@ -512,8 +524,8 @@ class PegBoard(BoldBoard):
                 if tmp.isnull():
                     m1 = self.mark_cell
                     self._jump(m1,tmp)
-                    self.tp1.replay_add(trans_lab('m',m1.x,m1.y))
-                    self.tp1.replay_add(trans_lab('m',tmp.x,tmp.y))
+                    self.tp1.replay_add(('m',m1.x,m1.y),'t')
+                    self.tp1.replay_add(('m',tmp.x,tmp.y),'t')
                     self.mark_cell = None
                 else:
                     self.mark_cell = tmp
