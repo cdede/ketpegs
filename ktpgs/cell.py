@@ -1,6 +1,7 @@
 from .entropy import neighbor_entropy
-from .common import  entropy_rule
 class Cell(object):
+    _entropy_rule = [ 0, -1 , -2 , -3 ,-4 ,4 ,1,2,3]
+
     def __init__(self, x=0, y=0, map='0', board =None):
         self.x = x
         self.y = y
@@ -85,7 +86,7 @@ class Cell(object):
 
     @property
     def entropy_lst(self):
-        return [entropy_rule[int(i.map) + i.second] for i in self.neighbor_me ]
+        return [self._entropy_rule[int(i.map) + i.second] for i in self.neighbor_me ]
 
     @property
     def symbol(self):

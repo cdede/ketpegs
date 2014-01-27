@@ -3,7 +3,7 @@ import os
 import json
 from ktpgs.cell import Cell
 from ktpgs.board import SeekFire , IceEarth, PegBoard
-from ktpgs.common import TargetConfig, entropy_rule, get_wp_config
+from ktpgs.common import TargetConfig,  get_wp_config
 from ktpgs.entropy import gen_kind_num
 from ktpgs.gen_oil import ent2num, gen_oil
 from ktpgs.other.animal import Animal
@@ -37,6 +37,9 @@ class CellTest(unittest.TestCase):
         self.c1.dead()
         self.assertTrue(self.c1.map=='0')
 
+    def test_entropy_rule(self):
+        for i in range(len(self.c1._entropy_rule)):
+            self.assertTrue(ent2num(self.c1._entropy_rule[i])==i)
 
 class  BoardTest(unittest.TestCase):
 
@@ -89,9 +92,6 @@ class FunTest(unittest.TestCase):
     def test_gen_kind_num(self):
         a= gen_kind_num({ 1:0, 2:1, 3:1, 4:1, 5:0 },5)
         self.assertTrue(a==1)
-    def test_entropy_rule(self):
-        for i in range(len(entropy_rule)):
-            self.assertTrue(ent2num(entropy_rule[i])==i)
 
     def test_gen_oil(self):
 
