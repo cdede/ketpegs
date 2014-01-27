@@ -1,6 +1,5 @@
 '''
-Again -> Board0 -> Board2 -> Board 
-Again -> Board0 -> BoardRan -> Board1 -> Board5 -> PegBoard
+Again -> Board0 -> Board2 -> Board -> Board1 -> Board5 -> PegBoard
 '''
 import os
 from operator import  attrgetter
@@ -81,6 +80,39 @@ class TrapReplay(object):
             yield False
         self.play_end()
         yield True
+
+class IceEarth(object):
+    def __init__(self, root):
+        random.seed(root.config.seed)
+        self.root = root
+
+        self.oil_coords = [(x, y) for y in range(1,self.root.h-1)
+                     for x in range(1,self.root.w-1)]
+        self.all_cell = [(x, y) for y in range(self.root.h)
+                     for x in range(self.root.w)]
+        self.lst_1 = list(range(1,self.root._kind+1))
+        self.fill_oil()
+    
+    def fill_oil(self):
+        oil = '153207846'
+        x,y = random.choice(self.oil_coords)
+        for i in range(9):
+            tmp = self.root[x,y].neighbor_me[i]
+            tmp.map = oil[i]
+            self.all_cell.remove((tmp.x,tmp.y))
+        self.fill_other()
+
+    def fill_other(self, num =11):
+        if num == 0:
+            return
+        x,y = random.choice(self.all_cell)
+        k1 = random.choice(self.lst_1)
+        self.root[x,y].map = k1
+        self.all_cell.remove((x,y))
+        self.fill_other(num - 1)
+
+    def __str__(self):
+        return str(self.root)
 
 class Again(object):
 
@@ -211,36 +243,6 @@ class Board0(Again):
                 num+=1
         return num
 
-class BoardRan(Board0):
-    def __init__(self, config):
-        random.seed(config.seed)
-        super(BoardRan, self).__init__(config)
-        self.log0.log = 'init BoardRan'
-
-        self.oil_coords = [(x, y) for y in range(1,self.h-1)
-                     for x in range(1,self.w-1)]
-        self.all_cell = [(x, y) for y in range(self.h)
-                     for x in range(self.w)]
-        self.lst_1 = list(range(1,self._kind+1))
-        self.fill_oil()
-    
-    def fill_oil(self):
-        oil = '153207846'
-        x,y = random.choice(self.oil_coords)
-        for i in range(9):
-            tmp = self[x,y].neighbor_me[i]
-            tmp.map = oil[i]
-            self.all_cell.remove((tmp.x,tmp.y))
-        self.fill_other()
-
-    def fill_other(self, num =11):
-        if num == 0:
-            return
-        x,y = random.choice(self.all_cell)
-        k1 = random.choice(self.lst_1)
-        self[x,y].map = k1
-        self.all_cell.remove((x,y))
-        self.fill_other(num - 1)
 
 class Board2(Board0):
     def __init__(self, config):
@@ -313,8 +315,7 @@ class Board(Board2):
             maps = ''.join(config.map)
             self.map = config.map
         else:
-            tmp1 = BoardRan(config)
-            maps = str(tmp1)
+            maps = str(IceEarth(self))
         for x in range(self.w * self.h):
             x1,y1 = self.allcoords[x]
             self[x1,y1].map = maps[x]
