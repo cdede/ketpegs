@@ -1,4 +1,3 @@
-import math
 import random
 import json
 import os
@@ -19,11 +18,7 @@ wood 5
 animal_rule = [ 4,2, 5,5,2, 1,1,2, 3,3,2, 4]
 
 entropy_rule = [ 0, -1 , -2 , -3 ,-4 ,4 ,1,2,3]
-
-   
-def get_mid(a,b):
-    return min (a,b)+int(math.fabs(a-b)/2)
-
+ 
 def sum_str(s1):
     return sum([int(i) for i in s1])
 

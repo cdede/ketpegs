@@ -5,9 +5,10 @@ import os
 from operator import  attrgetter
 import random
 import re
+import math
 
 from .entropy import gen_kind_num
-from .common import ( save_file, get_mid, check_cell_lst,
+from .common import ( save_file, check_cell_lst,
         )
 
 from .base.log import  GameLog
@@ -547,9 +548,12 @@ class PegBoard(BoldBoard):
         for x, y in self.allcoords:
             self[x,y].marked=False
 
+    def _get_mid(self,a,b):
+        return min (a,b)+int(math.fabs(a-b)/2)
+ 
     def _share_neighbor(self,c0,c1):
-        tx = get_mid(c0.x,c1.x)
-        ty = get_mid(c0.y,c1.y)
+        tx = self._get_mid(c0.x,c1.x)
+        ty = self._get_mid(c0.y,c1.y)
         return self[tx,ty]
 
     def _jump(self,c0,c1):
