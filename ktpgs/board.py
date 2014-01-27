@@ -6,9 +6,9 @@ from operator import  attrgetter
 import random
 import re
 import math
+import json
 
 from .entropy import gen_kind_num
-from .common import ( save_file )
 
 from .base.log import  GameLog
 from .cell import Cell
@@ -38,6 +38,10 @@ class SaveHistory(object):
         config['old_replay'] = self._split_str(self.root.tp1.replay, 70)
         return config
 
+    def _save_file(self,filename,obj1):
+        with open(filename, 'w') as file1:
+            k=json.dump(obj1,file1,indent=4)
+ 
     def save_history(self,flag='',prefix = ''):
         if prefix == '':
             prefix = self._name
@@ -46,7 +50,7 @@ class SaveHistory(object):
         fstr ='_'+w_l if flag == 'cur' else ''
         filename = "%s_%d_%d%s.json" % (prefix,self.root.b_oil_num,
                 len(self.root.tp1.replay.split()),fstr)
-        save_file(filename,self.save)
+        self._save_file(filename,self.save)
  
 class TrapReplay(object):
     def __init__(self, root ):

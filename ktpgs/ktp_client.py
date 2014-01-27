@@ -1,6 +1,6 @@
 from .board import PegBoard
 from .base.client import ThreadedClient
-from .common import get_wp_config, save_file
+from .common import get_wp_config
 config = get_wp_config()
 class KtpClient(ThreadedClient):
     """

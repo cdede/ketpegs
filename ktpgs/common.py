@@ -1,6 +1,6 @@
 import random
-import json
 import os
+import json
 '''
 fire 1
 earth 2
@@ -20,10 +20,6 @@ entropy_rule = [ 0, -1 , -2 , -3 ,-4 ,4 ,1,2,3]
  
 def sum_str(s1):
     return sum([int(i) for i in s1])
-
-def save_file(filename,obj1):
-    with open(filename, 'w') as file1:
-        k=json.dump(obj1,file1,indent=4)
 
 # Available colors are:
 #   none (transparent/default)
