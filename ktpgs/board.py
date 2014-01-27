@@ -1,5 +1,5 @@
 '''
-Again -> Board0 -> Board2 -> SeekFire -> Board1 -> Board5 -> PegBoard
+OilMetals -> BayouWater -> AurousWood -> SeekFire -> DealBoard -> BoldBoard -> PegBoard
 '''
 import os
 from operator import  attrgetter
@@ -114,11 +114,11 @@ class IceEarth(object):
     def __str__(self):
         return str(self.root)
 
-class Again(object):
+class OilMetals(object):
 
     def __init__(self, config):
         self.log0 = GameLog()
-        self.log0.log = 'init Again'
+        self.log0.log = 'init OilMetals'
 
         self.w, self.h = config.width, config.height
         self.total_oil = int(self.w*self.h/9)
@@ -174,10 +174,10 @@ class Again(object):
                 self.old_oil = tmp2
 
 
-class Board0(Again):
+class BayouWater(OilMetals):
     def __init__(self, config):
-        super(Board0, self).__init__(config)
-        self.log0.log = 'init Board0'
+        super(BayouWater, self).__init__(config)
+        self.log0.log = 'init BayouWater'
 
         self._kind = config.kind
         self.allcoords = [(x, y) for y in range(self.h)
@@ -244,10 +244,10 @@ class Board0(Again):
         return num
 
 
-class Board2(Board0):
+class AurousWood(BayouWater):
     def __init__(self, config):
-        super(Board2, self).__init__(config)
-        self.log0.log = 'init Board2'
+        super(AurousWood, self).__init__(config)
+        self.log0.log = 'init AurousWood'
 
     def clear(self,x,y):
         'right key'
@@ -305,7 +305,7 @@ class Board2(Board0):
 class Darkerror(RuntimeError):
     pass
 
-class SeekFire(Board2):
+class SeekFire(AurousWood):
     def __init__(self, config):
         super(SeekFire, self).__init__(config)
         self.log0.log = 'init SeekFire'
@@ -368,10 +368,10 @@ class SeekFire(Board2):
         return '%s: %dx%d %d/%d' % ('day' if self.isday else 'night', self.w, self.h, 
         self.b_oil_num,self.total_oil)
 
-class Board1(SeekFire):
+class DealBoard(SeekFire):
     def __init__(self, config):
-        super(Board1, self).__init__(config)
-        self.log0.log = 'init Board1'
+        super(DealBoard, self).__init__(config)
+        self.log0.log = 'init DealBoard'
 
         self.mark_cell = None
 
@@ -403,10 +403,10 @@ class Board1(SeekFire):
                 self.add_rand('swap')
             self.tp1.replay_add(trans_lab('m',x,y))
 
-class Board5(Board1):
+class BoldBoard(DealBoard):
     def __init__(self, config):
-        super(Board5, self).__init__(config)
-        self.log0.log = 'init Board5'
+        super(BoldBoard, self).__init__(config)
+        self.log0.log = 'init BoldBoard'
 
         self._add_swap = config.add_swap
         self._add_clear = config.add_clear
@@ -436,9 +436,7 @@ class Board5(Board1):
             return True
         return False
 
-
-
-class PegBoard(Board5):
+class PegBoard(BoldBoard):
     def __init__(self, config):
         self.isday = True
         super(PegBoard, self).__init__(config)
