@@ -1,6 +1,6 @@
 from .board import PegBoard
 from .base.client import ThreadedClient
-from .common import get_wp_config, save_file, tips
+from .common import get_wp_config, save_file
 config = get_wp_config()
 class KtpClient(ThreadedClient):
     """
@@ -44,7 +44,7 @@ class KtpClient(ThreadedClient):
         elif a == 'R' and len(self.g.tp1.replay)==0:
             for a in self.g.tp1.play_replay():
                 pass
-            self._msg.tipline = tips['finish']
+            self._msg.tipline = self.g.tips['finish']
         elif a == 'r' and len(self.g.tp1.replay)==0:
             self.update_timer()
         elif a == 't':
@@ -64,7 +64,7 @@ class KtpClient(ThreadedClient):
             self.gui.render(self.msg)
             self.handle2 = self.gui.loop.set_alarm_in(0.01, self.update_timer )
         else:
-            self._msg.tipline = tips['finish']
+            self._msg.tipline = self.g.tips['finish']
             self.gui.render(self.msg)
 
 

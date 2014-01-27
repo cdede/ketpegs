@@ -7,7 +7,7 @@ import random
 import re
 
 from .entropy import gen_kind_num
-from .common import ( save_file, split_str ,tips, hope_rule,
+from .common import ( save_file, split_str , 
         peg_neighbor,get_mid, check_cell_lst,trans_lab,
         )
 
@@ -303,6 +303,11 @@ class Darkerror(RuntimeError):
     pass
 
 class SeekFire(AurousWood):
+    tips = {
+            'finish':'Finish. start.',
+            'win':'Success. Return to restart.',
+            'lose':'Failure. Return to restart.',
+            }
     def __init__(self, config):
         super(SeekFire, self).__init__(config)
         self.log0.log = 'init SeekFire'
@@ -350,9 +355,9 @@ class SeekFire(AurousWood):
         if self.win or self.lose:
             self.sav4.save_history('cur')
         if self.lose:
-            return tips['lose'] 
+            return self.tips['lose'] 
         elif self.win:
-            return tips['win'] 
+            return self.tips['win'] 
         return ''
 
     def change_day(self):
@@ -434,13 +439,26 @@ class BoldBoard(DealBoard):
         return False
 
 class PegBoard(BoldBoard):
+
+    back= {
+            '130': '001',
+            '240': '002',
+            '350': '003',
+            '410': '004',
+            '520': '005',
+            '110': '002',
+            '220': '003',
+            '330': '004',
+            '440': '005',
+            '550': '001',
+        }
+ 
     def __init__(self, config):
         self.isday = True
         super(PegBoard, self).__init__(config)
         self.log0.log = 'init PegBoard'
 
         self._seed = config.seed
-        self.back=hope_rule
         self._old_lose = False
 
     def fill_heart(self):

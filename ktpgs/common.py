@@ -16,19 +16,7 @@ wood 5
 1 + 3
 3 + 5
 '''
-hope_rule= {
-        '130': '001',
-        '240': '002',
-        '350': '003',
-        '410': '004',
-        '520': '005',
-        '110': '002',
-        '220': '003',
-        '330': '004',
-        '440': '005',
-        '550': '001',
-    }
-
+   
 animal_rule = [ 4,2, 5,5,2, 1,1,2, 3,3,2, 4]
 
 entropy_rule = [ 0, -1 , -2 , -3 ,-4 ,4 ,1,2,3]
@@ -39,12 +27,6 @@ peg_neighbor = [
         [(0,1),(0,2)],
         [(0,-1),(0,-2)],
         ]
-
-tips = {
-        'finish':'Finish. start.',
-        'win':'Success. Return to restart.',
-        'lose':'Failure. Return to restart.',
-        }
 
 def get_mid(a,b):
     return min (a,b)+int(math.fabs(a-b)/2)
