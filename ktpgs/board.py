@@ -7,7 +7,7 @@ import random
 import re
 
 from .entropy import gen_kind_num
-from .common import ( save_file, peg_neighbor,get_mid, check_cell_lst,
+from .common import ( save_file, get_mid, check_cell_lst,
         )
 
 from .base.log import  GameLog
@@ -127,6 +127,12 @@ class IceEarth(object):
         return str(self.root)
 
 class OilMetals(object):
+    peg_neighbor = [
+            [(1,0),(2,0)],
+            [(-1,0),(-2,0)],
+            [(0,1),(0,2)],
+            [(0,-1),(0,-2)],
+            ]
 
     def __init__(self, config):
         self.log0 = GameLog()
@@ -151,7 +157,7 @@ class OilMetals(object):
             return
         self._old_oil = value
         x,y = value.x,value.y
-        p = peg_neighbor
+        p = self.peg_neighbor
         for j4 in range(4):
             p4 = p[j4]
             p2 = p4[1]
@@ -474,7 +480,7 @@ class PegBoard(BoldBoard):
         self._old_lose = False
 
     def fill_heart(self):
-        p = peg_neighbor
+        p = self.peg_neighbor
         self.marked_num =0
         for x, y in self.allcoords:
             for tmp1 in list(self.back.keys()):
