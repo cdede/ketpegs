@@ -2,7 +2,7 @@
 import os
 import json
 from ktpgs.cell import Cell
-from ktpgs.board import Board , BoardRan, PegBoard
+from ktpgs.board import SeekFire , IceEarth, PegBoard
 from ktpgs.common import TargetConfig, entropy_rule, get_wp_config
 from ktpgs.entropy import gen_kind_num
 from ktpgs.gen_oil import ent2num, gen_oil
@@ -150,10 +150,11 @@ class BoardRanTest(unittest.TestCase):
     def setUp(self):
         self.tmp1 = config.map
         config.map =''
-        self.p1 =BoardRan(config)
+        s0 = SeekFire(config)
+        self.p1 =IceEarth(s0)
 
     def test_fill_oil(self):
-        self.assertTrue(self.p1.num_null == 62)
+        self.assertTrue(self.p1.root.num_null == 62)
 
     def tearDown(self):
         config.map =self.tmp1

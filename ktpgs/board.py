@@ -1,5 +1,5 @@
 '''
-Again -> Board0 -> Board2 -> Board -> Board1 -> Board5 -> PegBoard
+Again -> Board0 -> Board2 -> SeekFire -> Board1 -> Board5 -> PegBoard
 '''
 import os
 from operator import  attrgetter
@@ -305,10 +305,10 @@ class Board2(Board0):
 class Darkerror(RuntimeError):
     pass
 
-class Board(Board2):
+class SeekFire(Board2):
     def __init__(self, config):
-        super(Board, self).__init__(config)
-        self.log0.log = 'init Board'
+        super(SeekFire, self).__init__(config)
+        self.log0.log = 'init SeekFire'
         self.sav4 = SaveHistory(self)
 
         if config.map != '':
@@ -368,7 +368,7 @@ class Board(Board2):
         return '%s: %dx%d %d/%d' % ('day' if self.isday else 'night', self.w, self.h, 
         self.b_oil_num,self.total_oil)
 
-class Board1(Board):
+class Board1(SeekFire):
     def __init__(self, config):
         super(Board1, self).__init__(config)
         self.log0.log = 'init Board1'
