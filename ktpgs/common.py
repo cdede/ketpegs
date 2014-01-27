@@ -15,9 +15,6 @@ wood 5
    
 animal_rule = [ 4,2, 5,5,2, 1,1,2, 3,3,2, 4]
 
-def sum_str(s1):
-    return sum([int(i) for i in s1])
-
 # Available colors are:
 #   none (transparent/default)
 #   black
