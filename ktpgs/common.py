@@ -1,7 +1,6 @@
 import random
 import json
 import os
-from operator import  attrgetter
 '''
 fire 1
 earth 2
@@ -75,10 +74,3 @@ def get_wp_config():
     config.work_path = work_path
     return config
  
-def check_cell_lst(lst,att1):
-    ret = True
-    for i in lst:
-        f1 = attrgetter(att1)
-        ret = ret and not f1(i)
-    return ret
-

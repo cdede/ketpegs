@@ -8,8 +8,7 @@ import re
 import math
 
 from .entropy import gen_kind_num
-from .common import ( save_file, check_cell_lst,
-        )
+from .common import ( save_file )
 
 from .base.log import  GameLog
 from .cell import Cell
@@ -480,6 +479,13 @@ class PegBoard(BoldBoard):
         self._seed = config.seed
         self._old_lose = False
 
+    def _check_cell_lst(self,lst,att1):
+        ret = True
+        for i in lst:
+            f1 = attrgetter(att1)
+            ret = ret and not f1(i)
+        return ret
+ 
     def fill_heart(self):
         p = self.peg_neighbor
         self.marked_num =0
@@ -495,7 +501,7 @@ class PegBoard(BoldBoard):
                             neighbor2 = self[x+p2[0],y+p2[1]]
                             rule1 = "%s%s%s"%(self[x,y].map,neighbor1.map,neighbor2.map) 
                             tmp_lst = [self[x,y], neighbor2,  neighbor1]
-                            if rule1 == tmp1 and check_cell_lst(tmp_lst,'is_oil') :
+                            if rule1 == tmp1 and self._check_cell_lst(tmp_lst,'is_oil') :
                                 if not self[x,y].marked :
                                     self[x,y].hopes = []
                                     self[x,y].marked=True
